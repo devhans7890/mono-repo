@@ -1,0 +1,23 @@
+
+# ------------------------------------------------------
+# [COMMON_OPTION]
+# ------------------------------------------------------
+common.memory.trace.use: true
+common.memory.sleep.time: 5000
+common.tps.use: true
+common.fraud.detection.print: true
+
+# ------------------------------------------------------
+# [THRESHOLD_OPTION]
+# ------------------------------------------------------
+#  1. queue poll timeout ms
+threshold.queue.poll.time: 50
+#  2. if threshold then, sleep time ms
+threshold.queue.offer.time: 500
+
+# ------------------------------------------------------
+# [FEATURE_OPTION]
+# ------------------------------------------------------
+feature.found.sleep.time: 10
+feature.found.wait.time: 1000
+

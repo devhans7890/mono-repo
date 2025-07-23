@@ -1,0 +1,60 @@
+analysis_rules:
+  - id: a001
+    description: "30일간 로그인 실패 횟수 5회"
+    level: elc_1
+    action: act000
+    notify: none
+    retention: 1s
+    extra_field: []
+    steps:
+      - id: s001
+        index_prefix: ["transaction-*"]
+        description: "로그인 실패 5회 이상 사용자"
+        base_fields: ["failed_login_count"]
+        target_fields: ["ACCT_NO"]
+        operator: "count"
+        threshold: 5
+        top_n: 1
+#        time_condition:
+#          field: "event_time"
+#          operator: "between"
+#          from: "2025-04-01T00:00:00+09:00"
+#          to: "2025-04-30T23:59:59+09:00"
+        search_conditions:
+          logic: and
+          conditions:
+            - field: "event_type"
+              type: "string"
+              operator: "="
+              form: "value"
+              value: "f"
+#        personalization_filters:
+#          threshold: 1
+#          include: ["p001"]
+
+personalization_rules:
+  - id: p001
+    description: "개인화 - 최근 로그인 지역이 서울이고 로그인 횟수가 3회 이상인 사용자"
+    base_field: "login_count"
+    value_type: "context"
+    personalization_value: "user_login_count"
+    retention_days: 30
+    threshold: 3
+    time_condition:
+      field: "@timestamp"
+      operator: "between"
+      from: "2025-04-01T00:00:00+09:00"
+      to: "2025-04-30T23:59:59+09:00"
+    search_conditions:
+      logic: and
+      conditions:
+        - field: "region"
+          type: "string"
+          operator: "="
+          form: "value"
+          value: "Seoul"
+        - field: "device"
+          type: "string"
+          operator: "="
+          form: "value"
+          value: "mobile"

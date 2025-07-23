@@ -1,0 +1,64 @@
+################################################
+#      <Properties Setting List>
+#                            Copyright Interezen
+################################################
+
+# ----------------------------------------------
+# [COMMON_OPTION]
+# ----------------------------------------------
+common.dynamic.delay: 3000
+
+# ----------------------------------------------
+# [MARIA_DB_OPTION]
+# ----------------------------------------------
+db.config.path: common/db.properties
+db.config.mybatis.path: common/mybatis-common.xml
+db.config.enc.regex: ^ENC\\((.*?)\\)
+db.config.enc.field.list: password
+
+# ----------------------------------------------
+# [QUEUE_CAPACITY_OPTION]
+# ----------------------------------------------
+queue.command.capacity: 1000
+queue.collect.capacity: 10000
+queue.output.capacity: 5000
+
+
+# ----------------------------------------------
+# [ANALYZER_OPTION]
+# ----------------------------------------------
+analyze.worker.count: 0
+
+
+# ----------------------------------------------
+# [POOL_OPTION]
+# ----------------------------------------------
+pool.config.path: common/pool.yml
+pool.kafka.consumer.id: consr
+pool.kafka.producer.id: prodr
+pool.redis.analyzer.id: analyzer
+pool.redis.action.id: action
+
+
+# ----------------------------------------------
+# [FEATURE_OPTION]
+# ----------------------------------------------
+mapping.config.path: common/mapping.yml
+
+# ----------------------------------------------
+# [MODEL_OPTION]
+# ----------------------------------------------
+model.dir: models
+
+
+# ----------------------------------------------
+# [REST_OPTION]
+# ----------------------------------------------
+rest.server.port: 17501
+
+# ----------------------------------------------
+# [UPLOAD_OPTION]
+# ----------------------------------------------
+upload.server.port: 17500
+upload.uri: /send
+upload.dir: upload

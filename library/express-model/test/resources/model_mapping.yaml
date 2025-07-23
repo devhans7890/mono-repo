@@ -1,0 +1,22 @@
+supervised:
+  - id: "sl_1"
+    dir: "models/"
+    model_type: "supervised"
+    prefix: "TEST_SL"
+
+unsupervised:
+  - id: "ul_1"
+    dir: "models/"
+    model_type: "unsupervised"
+    prefix: "TEST_UL"
+
+hybrid:
+  - id: "ul_1"
+    dir: "models/"
+    model_type: "unsupervised"
+    prefix: "TEST_UL"
+
+  - id: "sl_1"
+    dir: "models/"
+    model_type: "supervised"
+    prefix: "TEST_SL"

@@ -1,0 +1,54 @@
+logger:
+  level: INFO
+  handlers: [file]
+  #handlers: [stream, file]
+  log_file: logs/sampling.log
+
+db:
+  analyzer_server_es:
+    hosts: ["http://192.168.124.240:39202"]
+#    hosts: ["http://192.168.124.250:2063","http://192.168.124.250:2064","http://192.168.124.250:2067"]
+    timeout: 10
+    max_retries: 3
+  ai_server_es:
+    hosts: ["http://192.168.124.250:2067"]
+    timeout: 10
+    max_retries: 3
+
+
+index_definition:
+  source_index:
+    index_name: alltns           # 원천 데이터(source data)를 수집해놓은 인덱스 prefix 입력
+    index_date: "%Y.%m"          # 인덱스 suffix 패턴 입력(%Y, %Y.%m, %Y.%m.%d 지원)
+    basis_field: accountNo       # 인덱스의 기준필드 입력 (대개는 계좌번호 또는 고객번호)
+    cut_off_date: "2025.03.31"   # 해당 날짜까지의 인덱스 리스트를 가져오기 위함
+    lookback_months: 1           # cut_off_date로 부터 N개월 전까지의 인덱스 리스트를 가져오기 위함
+
+  sampled_raw_index:
+    index_name: sampled_alltns   # 원천 데이터로 부터 층화추출을 통해 샘플링 할 인덱스 prerfix 입력
+    basis_field: accountNo       # 원천 데이터의 basis_field의 value와 동일한 의미를 가진 필드 입력
+
+
+sampling_option:
+  basis_field: accountNo
+  timestamp_field: "@timestamp"
+  timestamp_field_format: "%Y-%m-%dT%H:%M:%S.%fZ"
+  # 고객과 출금기준으로 정책을 적용할건지, 입금기준으로 정책을 적용할건지 회의후 선택
+  transaction_filter:
+    LN_DPS_TRSC_KIND_CD_NM: "출금"
+  scroll_time: 2m
+  # 층화된 각 조건에 맞는 문서를 한 버킷에 담음(예를들어 조건이 나이, 성별, 채널 이라면 10대, 여자, 모바일 뱅킹이 한 버킷)
+  # 스크롤API 요청시 한 버킷 조건당 최대 max(batch_size * max_scroll_attempts,max_scroll_docs_limit) 만큼 추출
+  batch_size: 10000
+  max_scroll_attempts: 50
+  max_scroll_docs_limit: 500000
+  # 타겟하는 샘플링 건수(elasticsearch doc 1개가 1건)
+  # 인덱스 간에는 샘플링 건수를 균등하게, 인덱스 내부는 각 인덱스 내 버킷의 비율에 맞게 층화 추출
+  target_sample_size: 1000
+  # 제공받은 사기거래의 기준필드값을 정상으로 샘플링 하는 일이 없게 체크하기 위함
+  exclude_basis_values_file_path: "fraud_basis_values.txt"
+  # 결과 파일 경로
+  output:
+    distribution_logs_dir: "output/distribution"
+    basis_value_file: "output/normal_sampled_basis_values.txt"
+    timestamp_file: "output/normal_sampled_timestamp.txt"

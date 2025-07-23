@@ -1,0 +1,27 @@
+env: dev  # dev, prod 선택
+
+logger:
+  dev:
+    level: DEBUG
+    handlers: [stream]
+    log_file: logs/dev_fds_engine.log
+  prod:
+    level: INFO
+    handlers: [stream, file]
+    log_file: logs/prod_fds_engine.log
+
+db:
+  dev:
+    redis:
+      host: "192.168.124.250"
+      port: 2111
+      db: 0
+      password: null
+      decode_responses: true
+  prod:
+    redis:
+      host: "192.168.124.250"
+      port: 2120
+      db: 0
+      password: null
+      decode_responses: true

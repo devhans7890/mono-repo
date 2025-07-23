@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "express-base"
+version = "1.0.3"
+description = ""
+authors = ["yjsong <yjsong@interezen.co.kr>"]
+readme = "README.md"
+packages = [{ include = "express_base" }]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+express-utils = { path = "../../library/express-utils", develop = true }
+
+[[tool.poetry.source]]
+name = "pypi-group"
+url = "http://192.168.124.238:8001/repository/pypi-group/simple/"
+priority = "supplemental"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+

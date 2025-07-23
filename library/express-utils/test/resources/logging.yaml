@@ -1,0 +1,28 @@
+version: 1
+formatters:
+  simple:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  detailed:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s (%(filename)s:%(lineno)d - %(funcName)s)'
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: TRACE
+    formatter: detailed
+    stream: ext://sys.stdout
+  kafka_log_file:
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    formatter: detailed
+    filename: ../logs/kafka.log
+    maxBytes: 10485760  # 10MB
+    backupCount: 5  # 최대 5개의 백업 파일 유지
+    encoding: utf-8  # 인코딩 설정 추가
+loggers:
+  example_logger:
+    level: TRACE
+    handlers: [console]
+    propagate: no
+root:
+  level: DEBUG
+  handlers: [console]

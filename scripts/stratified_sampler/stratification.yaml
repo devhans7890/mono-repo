@@ -1,0 +1,48 @@
+#######################################################################################
+# 작성 방법
+# 층화 기준을 아래와 같은 포맷으로 나열하면 됩니다.
+#
+#stratified_key:    # 층화한 기준 명(임의로 설정 하면 됨)
+#    field: <층화할 필드명>
+#    strat_type: <층화 타입: range | terms>
+
+#    mapping: <층화할 필드의 인덱스 매핑 타입>
+#      (type=range인 경우) (지원하는 인덱스 매핑: long, integer, double, float)
+#      - ranges: 범주별 범위 정의
+#
+#      (type=terms인 경우) (지원하는 인덱스 매핑: keyword, text, long, integer, double, float)
+#       * 주의: 숫자형을 terms로 나누는 경우 버킷의 수가 과도하게 많아질 수 있음
+#      - size: 추출할 상위 bucket 수    (버킷 수 제한)
+#      - missing: 결측치 처리 시 대체값
+#      - min_doc_count: 최소 문서 수 (희소한 bucket 제거)
+#######################################################################################
+age:
+  field: customerAge
+  strat_type: range
+  mapping: long
+  ranges:
+    - { key: "00s", to: 10 }
+    - { key: "10s", from: 10, to: 20 }
+    - { key: "20s", from: 20, to: 30 }
+    - { key: "30s", from: 30, to: 40 }
+    - { key: "40s", from: 40, to: 50 }
+    - { key: "50s", from: 50, to: 60 }
+    - { key: "60s", from: 60, to: 70 }
+    - { key: "70s+", from: 70 }
+
+channel:
+  field: CHNL_TYP_CD_NM
+  strat_type: terms
+  mapping: keyword
+  size: 20
+  missing: "NA"
+  min_doc_count: 10
+
+gender:
+  field: customerGenderName
+  strat_type: terms
+  mapping: keyword
+  size: 2
+  missing: "NA"
+  min_doc_count: 10
+

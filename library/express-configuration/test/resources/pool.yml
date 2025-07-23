@@ -1,0 +1,58 @@
+
+################################################################################
+# [ FEATURE-STREAM MODULE POOL CONFIGURATION => STATIC ]
+################################################################################
+
+# FEATURE TEMP REDIS INFO [ 생성된 Feature 일정시간 이후 제거됨 ]
+redis:
+  - id: "action"
+    use: true
+    type: "single"
+    uri: [ "127.0.0.1:3005" ]
+#    type: "cluster"
+#    uri: [ "node1:3005", "node2:3005", "node3:3005" ]
+    timeout: 3000
+    auth:
+    workers: 0
+
+  - id: "analyzer"
+    use: true
+    type: "single"
+    uri: ["127.0.0.1:3010"]
+#    type: "cluster"
+#    uri: [ "node1:3010", "node2:3010", "node3:3010" ]
+    timeout: 3000
+    auth:
+    workers: 0
+
+# FDS 분석 서버 AI 탐지 로그 컨슈머 INFO
+consumer:
+  - "id": "consr"
+    "use": true
+    "topics": ["ai_event"]
+    "bootstrap.servers": "127.0.0.1:9092"
+#    "bootstrap.servers": "node1:9092,node2:909,node3:9092"
+    "property":
+      "group.id": "model-analyzer"
+      "key.deserializer": "org.apache.kafka.common.serialization.StringDeserializer"
+      "value.deserializer": "org.apache.kafka.common.serialization.StringDeserializer"
+      "max.poll.records": 500
+      "enable.auto.commit": true
+      #"auto.commit.interval.ms": 1000
+      "auto.offset.reset": "latest"
+
+
+# FDS 분석 INCIDENT-SENDER 가 보는 TOPIC KAFKA INFO
+producer:
+  - "id": "prodr"
+    "use": true
+    "topics": ["incident_rcv_event"]
+    "bootstrap.servers": "127.0.0.1:9092"
+#    "bootstrap.servers": "node1:9092,node2:909,node3:9092"
+    "property":
+      "compression.type": "gzip"
+      "linger.ms": 0
+      "key.serializer": "org.apache.kafka.common.serialization.StringSerializer"
+      "value.serializer": "org.apache.kafka.common.serialization.StringSerializer"
+      "request.timeout.ms": 5000
+      "max.block.ms": 60000

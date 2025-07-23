@@ -1,0 +1,11 @@
+indices:
+  - index_prefix: "trbrk"
+    basis_field: "cusno"
+    index_suffix_format: "%Y.%m"
+    lookback_months: 3
+
+  - index_prefix: "chg_hist"
+    basis_field: "e_cusno"
+    index_suffix_format: "%Y.%m.%d"
+    lookback_months: 3
+

@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "mono-repo"
+version = "1.0.0"
+description = ""
+authors = ["devhans7890 <devhans7890@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "service" }, { include = "library" }]
+
+
+[tool.poetry.dependencies]
+python = ">=3.9.13, <3.12"
+# library
+express-base = {path = "library/express-base", develop = true}
+express-configuration = {path = "library/express-configuration", develop = true}
+express-model = {path = "library/express-model", develop = true}
+express-pool-kafka = {path = "library/express-pool-kafka", develop = true}
+express-utils = {path = "library/express-utils", develop = true}
+# service
+dfinder-predictor = {path = "service/dfinder-predictor", develop = true}
+
+elasticsearch = "^7.17.9"
+jupyterlab = "^4.2.4"
+redis = "^5.0.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

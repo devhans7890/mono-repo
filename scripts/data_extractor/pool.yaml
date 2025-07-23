@@ -1,0 +1,6 @@
+db:
+  elasticsearch:
+    hosts: ["http://127.0.0.1:9200"]
+    timeout: 10
+    max_retries: 3
+

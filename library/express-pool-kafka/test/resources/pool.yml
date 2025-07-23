@@ -1,0 +1,24 @@
+consumer:
+  - id: "consr"
+    use: true
+    bootstrap.servers: "192.168.124.250:2062"
+    property:
+      "group.id": "test_group_id"
+      "key.deserializer": "string"
+      "value.deserializer": "json"
+      "max.poll.records": 500
+      "enable.auto.commit": true
+      "auto.offset.reset": "latest"
+      "fetch.max.wait.ms": 100
+
+
+producer:
+  - id: "prodr"
+    use: true
+    bootstrap.servers: "192.168.124.250:2062"
+    property:
+      "compression.type": "gzip"
+      "linger.ms": 0
+      "value.serializer": "json"
+      "request.timeout.ms": 3000
+      "max.block.ms": 10000

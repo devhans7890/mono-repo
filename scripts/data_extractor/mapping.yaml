@@ -1,0 +1,6 @@
+input:
+  basis_value_file: "output/normal_sampled_basis_values.txt"
+  timestamp_file: "output/normal_sampled_timestamp.txt"
+
+output:
+  result_csv_file: "output/previous_data_result.csv"
